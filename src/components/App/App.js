@@ -1,23 +1,45 @@
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import InputField from "../InputField";
+import Preview from "../Preview";
+import Menu from "../Menu";
+import marked from "marked";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+  const [text, setText] = useState('');
+
+  const onChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const getHtml = () => {
+    return {
+      __html: marked(text)
+    }
+  };
+
+  const onLeft = () => {
+    document.getElementById('app').classList.add('open');
+    document.getElementById('app').classList.remove('close');
+  };
+
+  const onRight = () => {
+    document.getElementById('app').classList.remove('open');
+    document.getElementById('app').classList.add('close');
+  };
+
+  return(
+    <div id="app" className={'app'}>
+      <InputField
+        value={ text }
+        onChange={onChange} />
+      <Preview
+        htmlData={getHtml}
+        onLeft={onLeft}
+        onRight={onRight} />
+      <Menu/>
     </div>
-  );
-}
+  )
+};
 
 export default App;
