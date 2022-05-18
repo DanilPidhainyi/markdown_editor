@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.scss';
 import InputField from "../InputField";
 import Preview from "../Preview";
@@ -7,6 +7,15 @@ import marked from "marked";
 
 const App = () => {
   const [text, setText] = useState('');
+  const [checkingLocalStorage, setCheckingLocalStorage] = useState(true);
+
+  useEffect(() => {
+    if (checkingLocalStorage) {
+      const newText = localStorage.getItem('text');
+      setText(newText ? newText : '');
+      setCheckingLocalStorage(false);
+    }
+  }, [ checkingLocalStorage ]);
 
   const onChange = (event) => {
     setText(event.target.value);
@@ -19,13 +28,17 @@ const App = () => {
   };
 
   const onLeft = () => {
-    document.getElementById('app').classList.add('open');
-    document.getElementById('app').classList.remove('close');
+    document.getElementById('app').classList.add('tab--open');
+    document.getElementById('app').classList.remove('tab--close');
   };
 
   const onRight = () => {
-    document.getElementById('app').classList.remove('open');
-    document.getElementById('app').classList.add('close');
+    document.getElementById('app').classList.remove('tab--open');
+    document.getElementById('app').classList.add('tab--close');
+  };
+
+  const saveToLocalStorage = () => {
+    localStorage.setItem('text', text);
   };
 
   return(
@@ -37,7 +50,8 @@ const App = () => {
         htmlData={getHtml}
         onLeft={onLeft}
         onRight={onRight} />
-      <Menu/>
+      <Menu
+        saveToLocalStorage={saveToLocalStorage}/>
     </div>
   )
 };
