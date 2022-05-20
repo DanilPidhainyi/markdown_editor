@@ -1,0 +1,20 @@
+.menu {
+  background: linear-gradient(180deg, #CDCDCD 0%, #E5E5E5 100%);
+  grid-area: menu;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.menu div {
+  cursor: pointer;
+  margin: 10px auto;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu div:hover {
+  background-color: #c3c3c3;
+}
