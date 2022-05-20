@@ -3,29 +3,19 @@ import './App.scss';
 import InputField from "../InputField";
 import Preview from "../Preview";
 import Menu from "../Menu";
-import marked from "marked";
+import { getHtml, saveToLocalStorage, createFile, openFile } from "../../utils";
 
 const App = () => {
   const [text, setText] = useState('');
-  const [checkingLocalStorage, setCheckingLocalStorage] = useState(true);
   const appEl = useRef(null);
 
   useEffect(() => {
-    if (checkingLocalStorage) {
-      const newText = localStorage.getItem('text');
-      setText(newText ? newText : '');
-      setCheckingLocalStorage(false);
-    }
-  }, [ checkingLocalStorage ]);
+    const newText = localStorage.getItem('text');
+    setText(newText ? newText : '');
+  }, []);
 
   const onChange = (event) => {
-    setText(event.target.value);
-  };
-
-  const getHtml = () => {
-    return {
-      __html: marked(text)
-    }
+    setText(event.currentTarget.value);
   };
 
   const onLeft = () => {
@@ -34,36 +24,27 @@ const App = () => {
   };
 
   const onRight = () => {
-    appEl.current.classList.remove('tab--open');
-    appEl.current.classList.add('tab--close');
+    const classes = appEl.current.classList;
+    if ([...classes].filter((el) => el === 'tab--open').length === 0) return;
+    classes.remove('tab--open');
+    classes.add('tab--close');
   };
 
-  const saveToLocalStorage = () => {
-    localStorage.setItem('text', text);
-  };
-
-  const getFile = () => {
-    return (
-      URL.createObjectURL(
-        new Blob([getHtml().__html], {type: 'text/plain'})
-      )
-    )
-  };
-
-  return(
+  return (
     <div id="app" className={'app'} ref={appEl}>
       <InputField
         value={ text }
-        onChange={onChange} />
+        onChange={ onChange } />
       <Preview
-        htmlData={getHtml}
-        onLeft={onLeft}
-        onRight={onRight} />
+        htmlData={ () => getHtml(text) }
+        onLeft={ onLeft }
+        onRight={ onRight } />
       <Menu
-        getFile={getFile}
-        saveToLocalStorage={saveToLocalStorage}/>
+        getFile={ () => createFile(text) }
+        saveToLocalStorage={ () => saveToLocalStorage(text) }
+        openFile={ (evt) => openFile(evt, setText) }/>
     </div>
-  )
+  );
 };
 
 export default App;
