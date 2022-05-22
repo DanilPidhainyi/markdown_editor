@@ -1,8 +1,8 @@
 .md-content {
   grid-area: md;
 }
-.text-field {
-  font: 20px UbuntuMono;
+.input-field {
+  font: 16px UbuntuMono;
   height: calc(100% - 50px);
   width: calc(100% - 40px);;
   margin-top: 50px;
@@ -13,7 +13,4 @@
   padding: 0;
   border: 0;
   white-space: pre-wrap;
-}
-.text-field:focus {
-  outline: none;
 }
