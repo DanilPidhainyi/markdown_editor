@@ -2,7 +2,7 @@
 
 Редактор markdown розмітки.
 
-## Демо - https://danilpidhainyi.github.io/markdown_editor/
+## Демо - [посилання](https://danilpidhainyi.github.io/markdown_editor/)
 
 ## Стек
 
