@@ -7,7 +7,7 @@
 ## Стек
 
 - React
-- Webpack + Babel
+- Webpack
 - CSS Grid + Flexbox
 - markedjs
 
